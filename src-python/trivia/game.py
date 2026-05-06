@@ -1,13 +1,17 @@
 from collections import deque
 # Yahir Hernandez
+BOARD_SIZE = 12
+WINNING_COINS = 6
+QUESTIONS_PER_CATEGORY = 50
+MAX_PLAYERS = 6
 
 # REFACTOR ME
 class Game:
     def __init__(self):
         self.players = []
-        self.positions = [0] * 6
-        self.coins = [0] * 6
-        self.in_penalty_box = [False] * 6
+        self.positions = [0] * MAX_PLAYERS
+        self.coins = [0] * MAX_PLAYERS
+        self.in_penalty_box = [False] * MAX_PLAYERS
 
         self.pop_questions = deque()
         self.science_questions = deque()
@@ -17,7 +21,7 @@ class Game:
         self.current_player = 0
         self.is_getting_out_of_penalty_box = False
 
-        for i in range(50):
+        for i in range(QUESTIONS_PER_CATEGORY):
             self.pop_questions.append(f"Pop Question {i}")
             self.science_questions.append(f"Science Question {i}")
             self.sports_questions.append(f"Sports Question {i}")
@@ -52,8 +56,8 @@ class Game:
 
                 print(f"{self.players[self.current_player]} is getting out of the penalty box")
                 self.positions[self.current_player] += roll
-                if self.positions[self.current_player] > 12:
-                    self.positions[self.current_player] -= 12
+                if self.positions[self.current_player] > BOARD_SIZE:
+                    self.positions[self.current_player] -= BOARD_SIZE
 
                 print(f"{self.players[self.current_player]}'s new location is {self.positions[self.current_player]}")
                 print(f"The category is {self._current_category()}")
@@ -63,8 +67,8 @@ class Game:
                 self.is_getting_out_of_penalty_box = False
         else:
             self.positions[self.current_player] += roll
-            if self.positions[self.current_player] > 12:
-                self.positions[self.current_player] -= 12
+            if self.positions[self.current_player] > BOARD_SIZE:
+                self.positions[self.current_player] -= BOARD_SIZE
 
             print(f"{self.players[self.current_player]}'s new location is {self.positions[self.current_player]}")
             print(f"The category is {self._current_category()}")
@@ -132,4 +136,4 @@ class Game:
         return True
 
     def _did_player_win(self):
-        return not (self.coins[self.current_player] == 6)
+        return not (self.coins[self.current_player] == WINNING_COINS)
