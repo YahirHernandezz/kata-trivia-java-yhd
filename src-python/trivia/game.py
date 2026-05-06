@@ -10,7 +10,6 @@ MAX_PLAYERS = 6
 class Game:
     def __init__(self):
         self.players = []
-        self.positions = [0] * MAX_PLAYERS
         self.coins = [0] * MAX_PLAYERS
         self.in_penalty_box = [False] * MAX_PLAYERS
 
@@ -36,7 +35,6 @@ class Game:
 
     def add(self, player_name):
         player = Player(player_name)
-        self.positions[self.how_many_players()] = 1
         self.coins[self.how_many_players()] = 0
         self.in_penalty_box[self.how_many_players()] = False
         self.players.append(player)
@@ -56,22 +54,22 @@ class Game:
                 self.is_getting_out_of_penalty_box = True
 
                 print(f"{self.players[self.current_player].name} is getting out of the penalty box")
-                self.positions[self.current_player] += roll
-                if self.positions[self.current_player] > BOARD_SIZE:
-                    self.positions[self.current_player] -= BOARD_SIZE
+                self.players[self.current_player].position += roll
+                if self.players[self.current_player].position > BOARD_SIZE:
+                    self.players[self.current_player].position -= BOARD_SIZE
 
-                print(f"{self.players[self.current_player].name}'s new location is {self.positions[self.current_player]}")
+                print(f"{self.players[self.current_player].name}'s new location is {self.players[self.current_player].position}")
                 print(f"The category is {self._current_category()}")
                 self._ask_question()
             else:
                 print(f"{self.players[self.current_player].name} is not getting out of the penalty box")
                 self.is_getting_out_of_penalty_box = False
         else:
-            self.positions[self.current_player] += roll
-            if self.positions[self.current_player] > BOARD_SIZE:
-                self.positions[self.current_player] -= BOARD_SIZE
+            self.players[self.current_player].position += roll
+            if self.players[self.current_player].position > BOARD_SIZE:
+                self.players[self.current_player].position -= BOARD_SIZE
 
-            print(f"{self.players[self.current_player].name}'s new location is {self.positions[self.current_player]}")
+            print(f"{self.players[self.current_player].name}'s new location is {self.players[self.current_player].position}")
             print(f"The category is {self._current_category()}")
             self._ask_question()
 
@@ -87,7 +85,7 @@ class Game:
             print(self.rock_questions.popleft())
 
     def _current_category(self):
-        pos = self.positions[self.current_player] - 1
+        pos = self.players[self.current_player].position - 1
         if pos in (0, 4, 8):
             return "Pop"
         if pos in (1, 5, 9):
