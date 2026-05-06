@@ -26,7 +26,7 @@ class Game:
     def create_rock_question(self, index):
         return f"Rock Question {index}"
 
-    def is_playable(self):
+    def has_enough_players(self):
         return self.how_many_players() >= 2
 
     def add(self, player_name):
