@@ -19,9 +19,7 @@ class Game:
 
         self.current_player = 0
         self.is_getting_out_of_penalty_box = False
-
-        for i in range(QUESTIONS_PER_CATEGORY):
-            self.deck = QuestionDeck()
+        self.deck = QuestionDeck()
 
     def create_rock_question(self, index):
         return f"Rock Question {index}"
