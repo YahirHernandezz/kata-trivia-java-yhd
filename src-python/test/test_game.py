@@ -2,7 +2,7 @@ import io
 import random
 import sys
 import pytest
-
+# Yahir Hernández
 from trivia.game_old import GameOld
 from trivia.game import Game
 
@@ -14,7 +14,7 @@ def extract_output(rand: random.Random, game) -> str:
     try:
         game.add("Chet")
         game.add("Pat")
-        game.add("Sue")
+        game.add("Sue") 
 
         not_a_winner = False
         while True:
