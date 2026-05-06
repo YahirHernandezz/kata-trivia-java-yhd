@@ -100,7 +100,7 @@ class Game:
                 self._advance_turn()
                 return True
         else:
-            print("Answer was corrent!!!!")
+            print("Answer was correct!!!!")
             player.add_coin()
             print(f"{self.players[self.current_player].name} now has {self.players[self.current_player].coins} Gold Coins.")
 
