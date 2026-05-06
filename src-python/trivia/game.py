@@ -10,7 +10,6 @@ MAX_PLAYERS = 6
 class Game:
     def __init__(self):
         self.players = []
-        self.coins = [0] * MAX_PLAYERS
         self.in_penalty_box = [False] * MAX_PLAYERS
 
         self.pop_questions = deque()
@@ -35,7 +34,6 @@ class Game:
 
     def add(self, player_name):
         player = Player(player_name)
-        self.coins[self.how_many_players()] = 0
         self.in_penalty_box[self.how_many_players()] = False
         self.players.append(player)
         print(f"{player_name} was added")
@@ -103,8 +101,8 @@ class Game:
         if self.in_penalty_box[self.current_player]:
             if self.is_getting_out_of_penalty_box:
                 print("Answer was correct!!!!")
-                self.coins[self.current_player] += 1
-                print(f"{self.players[self.current_player].name} now has {self.coins[self.current_player]} Gold Coins.")
+                self.players[self.current_player].coins += 1
+                print(f"{self.players[self.current_player].name} now has {self.players[self.current_player].coins} Gold Coins.")
 
                 winner = self._did_player_win()
                 self._advance_turn()
@@ -115,8 +113,8 @@ class Game:
                 return True
         else:
             print("Answer was corrent!!!!")
-            self.coins[self.current_player] += 1
-            print(f"{self.players[self.current_player].name} now has {self.coins[self.current_player]} Gold Coins.")
+            self.players[self.current_player].coins += 1
+            print(f"{self.players[self.current_player].name} now has {self.players[self.current_player].coins} Gold Coins.")
 
             winner = self._did_player_win()
             self._advance_turn()
@@ -132,4 +130,4 @@ class Game:
         return True
 
     def _did_player_win(self):
-        return not (self.coins[self.current_player] == WINNING_COINS)
+        return not (self.players[self.current_player].coins == WINNING_COINS)
