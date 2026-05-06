@@ -39,31 +39,31 @@ class Game:
     def how_many_players(self):
         return len(self.players)
 
-    def roll(self, roll):
-        print(f"{self.players[self.current_player].name} is the current player")
+    def roll(self, roll: int):
+        player = self.players[self.current_player]
+        print(f"{player.name} is the current player")
         print(f"They have rolled a {roll}")
 
-        if self.players[self.current_player].in_penalty_box:
-            if roll % 2 != 0:
-                self.is_getting_out_of_penalty_box = True
-
-                print(f"{self.players[self.current_player].name} is getting out of the penalty box")
-                player = self.players[self.current_player]
-                player.advance(roll)
-
-                print(f"{self.players[self.current_player].name}'s new location is {self.players[self.current_player].position}")
-                print(f"The category is {self._current_category()}")
-                self._ask_question()
-            else:
-                print(f"{self.players[self.current_player].name} is not getting out of the penalty box")
-                self.is_getting_out_of_penalty_box = False
+        if player.in_penalty_box:
+            self._handle_penalty_box_turn(player, roll)
         else:
-            player = self.players[self.current_player]
-            player.advance(roll)        
+            self._handle_normal_turn(player, roll)
 
-            print(f"{self.players[self.current_player].name}'s new location is {self.players[self.current_player].position}")
-            print(f"The category is {self._current_category()}")
-            self._ask_question()
+    def _handle_normal_turn(self, player, roll: int):
+        player.advance(roll)
+        category = self._current_category()
+        print(f"{player.name}'s new location is {player.position}")
+        print(f"The category is {category}")
+        print(self.deck.next_question(category))
+
+    def _handle_penalty_box_turn(self, player, roll: int):
+        if roll % 2 != 0:
+            self.is_getting_out_of_penalty_box = True
+            print(f"{player.name} is getting out of the penalty box")
+            self._handle_normal_turn(player, roll)
+        else:
+            print(f"{player.name} is not getting out of the penalty box")
+            self.is_getting_out_of_penalty_box = False
 
     def _ask_question(self):
         category = self._current_category()
