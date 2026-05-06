@@ -10,7 +10,6 @@ MAX_PLAYERS = 6
 class Game:
     def __init__(self):
         self.players = []
-        self.in_penalty_box = [False] * MAX_PLAYERS
 
         self.pop_questions = deque()
         self.science_questions = deque()
@@ -34,7 +33,6 @@ class Game:
 
     def add(self, player_name):
         player = Player(player_name)
-        self.in_penalty_box[self.how_many_players()] = False
         self.players.append(player)
         print(f"{player_name} was added")
         print(f"They are player number {len(self.players)}")
@@ -47,7 +45,7 @@ class Game:
         print(f"{self.players[self.current_player].name} is the current player")
         print(f"They have rolled a {roll}")
 
-        if self.in_penalty_box[self.current_player]:
+        if self.players[self.current_player].in_penalty_box:
             if roll % 2 != 0:
                 self.is_getting_out_of_penalty_box = True
 
@@ -98,7 +96,7 @@ class Game:
             self.current_player = 0
 
     def handle_correct_answer(self):
-        if self.in_penalty_box[self.current_player]:
+        if self.players[self.current_player].in_penalty_box:
             if self.is_getting_out_of_penalty_box:
                 print("Answer was correct!!!!")
                 self.players[self.current_player].coins += 1
@@ -124,7 +122,7 @@ class Game:
     def wrong_answer(self):
         print("Question was incorrectly answered")
         print(f"{self.players[self.current_player].name} was sent to the penalty box")
-        self.in_penalty_box[self.current_player] = True
+        self.players[self.current_player].in_penalty_box = True
 
         self._advance_turn()
         return True
