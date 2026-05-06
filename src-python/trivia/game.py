@@ -50,9 +50,8 @@ class Game:
                 self.is_getting_out_of_penalty_box = True
 
                 print(f"{self.players[self.current_player].name} is getting out of the penalty box")
-                self.players[self.current_player].position += roll
-                if self.players[self.current_player].position > BOARD_SIZE:
-                    self.players[self.current_player].position -= BOARD_SIZE
+                player = self.players[self.current_player]
+                player.advance(roll)
 
                 print(f"{self.players[self.current_player].name}'s new location is {self.players[self.current_player].position}")
                 print(f"The category is {self._current_category()}")
@@ -61,9 +60,8 @@ class Game:
                 print(f"{self.players[self.current_player].name} is not getting out of the penalty box")
                 self.is_getting_out_of_penalty_box = False
         else:
-            self.players[self.current_player].position += roll
-            if self.players[self.current_player].position > BOARD_SIZE:
-                self.players[self.current_player].position -= BOARD_SIZE
+            player = self.players[self.current_player]
+            player.advance(roll)        
 
             print(f"{self.players[self.current_player].name}'s new location is {self.players[self.current_player].position}")
             print(f"The category is {self._current_category()}")
@@ -96,10 +94,11 @@ class Game:
             self.current_player = 0
 
     def handle_correct_answer(self):
+        player = self.players[self.current_player]
         if self.players[self.current_player].in_penalty_box:
             if self.is_getting_out_of_penalty_box:
                 print("Answer was correct!!!!")
-                self.players[self.current_player].coins += 1
+                player.add_coin()
                 print(f"{self.players[self.current_player].name} now has {self.players[self.current_player].coins} Gold Coins.")
 
                 winner = self._did_player_win()
@@ -111,7 +110,7 @@ class Game:
                 return True
         else:
             print("Answer was corrent!!!!")
-            self.players[self.current_player].coins += 1
+            player.add_coin()
             print(f"{self.players[self.current_player].name} now has {self.players[self.current_player].coins} Gold Coins.")
 
             winner = self._did_player_win()
@@ -120,12 +119,14 @@ class Game:
             return winner
 
     def wrong_answer(self):
+        player = self.players[self.current_player]
         print("Question was incorrectly answered")
         print(f"{self.players[self.current_player].name} was sent to the penalty box")
-        self.players[self.current_player].in_penalty_box = True
+        player.send_to_penalty_box()
 
         self._advance_turn()
         return True
 
     def _did_player_win(self):
-        return not (self.players[self.current_player].coins == WINNING_COINS)
+        player = self.players[self.current_player]
+        return not (player.has_won())
