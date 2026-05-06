@@ -94,6 +94,11 @@ class Game:
         if pos in (2, 6, 10):
             return "Sports"
         return "Rock"
+    
+    def _advance_turn(self):
+        self.current_player += 1
+        if self.current_player == len(self.players):
+            self.current_player = 0
 
     def handle_correct_answer(self):
         if self.in_penalty_box[self.current_player]:
@@ -103,15 +108,11 @@ class Game:
                 print(f"{self.players[self.current_player]} now has {self.coins[self.current_player]} Gold Coins.")
 
                 winner = self._did_player_win()
-                self.current_player += 1
-                if self.current_player == len(self.players):
-                    self.current_player = 0
+                self._advance_turn()
 
                 return winner
             else:
-                self.current_player += 1
-                if self.current_player == len(self.players):
-                    self.current_player = 0
+                self._advance_turn()
                 return True
         else:
             print("Answer was corrent!!!!")
@@ -119,9 +120,7 @@ class Game:
             print(f"{self.players[self.current_player]} now has {self.coins[self.current_player]} Gold Coins.")
 
             winner = self._did_player_win()
-            self.current_player += 1
-            if self.current_player == len(self.players):
-                self.current_player = 0
+            self._advance_turn()
 
             return winner
 
@@ -130,9 +129,7 @@ class Game:
         print(f"{self.players[self.current_player]} was sent to the penalty box")
         self.in_penalty_box[self.current_player] = True
 
-        self.current_player += 1
-        if self.current_player == len(self.players):
-            self.current_player = 0
+        self._advance_turn()
         return True
 
     def _did_player_win(self):
