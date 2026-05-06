@@ -1,5 +1,6 @@
 from collections import deque
 from trivia.player import Player
+from trivia.question_deck import QuestionDeck
 # Yahir Hernandez
 BOARD_SIZE = 12
 WINNING_COINS = 6
@@ -20,10 +21,7 @@ class Game:
         self.is_getting_out_of_penalty_box = False
 
         for i in range(QUESTIONS_PER_CATEGORY):
-            self.pop_questions.append(f"Pop Question {i}")
-            self.science_questions.append(f"Science Question {i}")
-            self.sports_questions.append(f"Sports Question {i}")
-            self.rock_questions.append(self.create_rock_question(i))
+            self.deck = QuestionDeck()
 
     def create_rock_question(self, index):
         return f"Rock Question {index}"
@@ -69,14 +67,7 @@ class Game:
 
     def _ask_question(self):
         category = self._current_category()
-        if category == "Pop":
-            print(self.pop_questions.popleft())
-        if category == "Science":
-            print(self.science_questions.popleft())
-        if category == "Sports":
-            print(self.sports_questions.popleft())
-        if category == "Rock":
-            print(self.rock_questions.popleft())
+        print(self.deck.next_question(category))
 
     def _current_category(self):
         pos = self.players[self.current_player].position - 1
