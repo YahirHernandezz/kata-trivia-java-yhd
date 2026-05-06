@@ -5,7 +5,7 @@ from collections import deque
 class Game:
     def __init__(self):
         self.players = []
-        self.places = [0] * 6
+        self.positions = [0] * 6
         self.coins = [0] * 6
         self.in_penalty_box = [False] * 6
 
@@ -30,7 +30,7 @@ class Game:
         return self.how_many_players() >= 2
 
     def add(self, player_name):
-        self.places[self.how_many_players()] = 1
+        self.positions[self.how_many_players()] = 1
         self.coins[self.how_many_players()] = 0
         self.in_penalty_box[self.how_many_players()] = False
         self.players.append(player_name)
@@ -51,22 +51,22 @@ class Game:
                 self.is_getting_out_of_penalty_box = True
 
                 print(f"{self.players[self.current_player]} is getting out of the penalty box")
-                self.places[self.current_player] += roll
-                if self.places[self.current_player] > 12:
-                    self.places[self.current_player] -= 12
+                self.positions[self.current_player] += roll
+                if self.positions[self.current_player] > 12:
+                    self.positions[self.current_player] -= 12
 
-                print(f"{self.players[self.current_player]}'s new location is {self.places[self.current_player]}")
+                print(f"{self.players[self.current_player]}'s new location is {self.positions[self.current_player]}")
                 print(f"The category is {self._current_category()}")
                 self._ask_question()
             else:
                 print(f"{self.players[self.current_player]} is not getting out of the penalty box")
                 self.is_getting_out_of_penalty_box = False
         else:
-            self.places[self.current_player] += roll
-            if self.places[self.current_player] > 12:
-                self.places[self.current_player] -= 12
+            self.positions[self.current_player] += roll
+            if self.positions[self.current_player] > 12:
+                self.positions[self.current_player] -= 12
 
-            print(f"{self.players[self.current_player]}'s new location is {self.places[self.current_player]}")
+            print(f"{self.players[self.current_player]}'s new location is {self.positions[self.current_player]}")
             print(f"The category is {self._current_category()}")
             self._ask_question()
 
@@ -82,7 +82,7 @@ class Game:
             print(self.rock_questions.popleft())
 
     def _current_category(self):
-        pos = self.places[self.current_player] - 1
+        pos = self.positions[self.current_player] - 1
         if pos in (0, 4, 8):
             return "Pop"
         if pos in (1, 5, 9):
