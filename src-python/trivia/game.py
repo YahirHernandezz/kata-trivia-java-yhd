@@ -75,8 +75,8 @@ class Game:
             return "Science"
         if pos in (2, 6, 10):
             return "Sports"
-        if pos in (3, 7, 11):  
-            return "Geography"
+        # if pos in (3, 7, 11):  
+        #     return "Geography"
         return "Rock"
     
     def _advance_turn(self):

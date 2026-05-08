@@ -4,7 +4,9 @@ QUESTIONS_PER_CATEGORY = 50
 
 
 class QuestionDeck:
-    CATEGORIES = ["Pop", "Science", "Sports", "Rock", "Geography"]
+    # CATEGORIES = ["Pop", "Science", "Sports", "Rock", "Geography"]
+    CATEGORIES = ["Pop", "Science", "Sports", "Rock"]
+
 
     def __init__(self):
         self._questions = {
